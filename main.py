@@ -1,24 +1,44 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
+import cv2
+from cv2 import VideoWriter, VideoWriter_fourcc
+import os
+width = 1280
+height = 720
+FPS = 24
+seconds = 10
+fourcc = VideoWriter_fourcc(*'MP42')
+video = VideoWriter('./noise.avi', fourcc, float(FPS), (width, height))
+for _ in range(FPS*seconds):
+    frame = np.random.randint(0, 256,
+                              (height, width, 3),
+                              dtype=np.uint8)
+    video.write(frame)
+video.release()
 
-fig, ax = plt.subplots()
+cap = cv2.VideoCapture('noise.avi')
+if (cap.isOpened() == False):
+    print("Error opening video stream or file")
 
-x = np.arange(0, 2*np.pi, 0.01)
-line, = ax.plot(x, np.sin(x))
+# Read until video is completed
+while (cap.isOpened()):
+    # Capture frame-by-frame
+    ret, frame = cap.read()
+    if ret == True:
 
+        # Display the resulting frame
+        cv2.imshow('Frame', frame)
 
-def init():  # only required for blitting to give a clean slate.
-    line.set_ydata([np.nan] * len(x))
-    return line,
+        # Press Q on keyboard to  exit
+        if cv2.waitKey(25) & 0xFF == ord('q'):
+            break
 
+    # Break the loop
+    else:
+        break
 
-def animate(i):
-    line.set_ydata(np.sin(x + i / 100))  # update the data.
-    return line,
+# When everything done, release the video capture object
+cap.release()
 
-
-ani = animation.FuncAnimation(
-    fig, animate, init_func=init, interval=2, blit=True, save_count=50)
-
-plt.show()
+os.remove("noise.avi")
+# Closes all the frames
+cv2.destroyAllWindows()
