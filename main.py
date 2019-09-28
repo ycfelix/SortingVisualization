@@ -8,10 +8,10 @@ FPS = 24
 seconds = 10
 fourcc = VideoWriter_fourcc(*'MP42')
 video = VideoWriter('./noise.avi', fourcc, float(FPS), (width, height))
-for _ in range(FPS*seconds):
-    frame = np.random.randint(0, 256,
-                              (height, width, 3),
-                              dtype=np.uint8)
+white_square=np.full((10,10,3), 255)
+for e in range(FPS*seconds):
+    frame = np.ones((height,width,3),dtype=np.uint8)
+    frame[10+e:20+e,30:40,:]=white_square
     video.write(frame)
 video.release()
 
