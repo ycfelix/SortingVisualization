@@ -1,44 +1,25 @@
-import numpy as np
-import cv2
-from cv2 import VideoWriter, VideoWriter_fourcc
-import os
-width = 1280
-height = 720
-FPS = 24
-seconds = 10
-fourcc = VideoWriter_fourcc(*'MP42')
-video = VideoWriter('./noise.avi', fourcc, float(FPS), (width, height))
-white_square=np.full((10,10,3), 255)
-for e in range(FPS*seconds):
-    frame = np.ones((height,width,3),dtype=np.uint8)
-    frame[10+e:20+e,30:40,:]=white_square
-    video.write(frame)
-video.release()
+import tkinter as tk
 
-cap = cv2.VideoCapture('noise.avi')
-if (cap.isOpened() == False):
-    print("Error opening video stream or file")
+root = tk.Tk()
+canvas = tk.Canvas(root, width=200, height=200, borderwidth=0, highlightthickness=0, bg="black")
+canvas.grid()
 
-# Read until video is completed
-while (cap.isOpened()):
-    # Capture frame-by-frame
-    ret, frame = cap.read()
-    if ret == True:
+def _create_circle(self, x, y, r, **kwargs):
+    return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
+tk.Canvas.create_circle = _create_circle
 
-        # Display the resulting frame
-        cv2.imshow('Frame', frame)
+def _create_circle_arc(self, x, y, r, **kwargs):
+    if "start" in kwargs and "end" in kwargs:
+        kwargs["extent"] = kwargs["end"] - kwargs["start"]
+        del kwargs["end"]
+    return self.create_arc(x-r, y-r, x+r, y+r, **kwargs)
+tk.Canvas.create_circle_arc = _create_circle_arc
 
-        # Press Q on keyboard to  exit
-        if cv2.waitKey(25) & 0xFF == ord('q'):
-            break
+canvas.create_circle(100, 120, 50, fill="blue", outline="#DDD", width=4)
+canvas.create_circle_arc(100, 120, 48, fill="green", outline="", start=45, end=140)
+canvas.create_circle_arc(100, 120, 48, fill="green", outline="", start=275, end=305)
+canvas.create_circle_arc(100, 120, 45, style="arc", outline="white", width=6, start=270-25, end=270+25)
+canvas.create_circle(150, 40, 20, fill="#BBB", outline="")
 
-    # Break the loop
-    else:
-        break
-
-# When everything done, release the video capture object
-cap.release()
-
-os.remove("noise.avi")
-# Closes all the frames
-cv2.destroyAllWindows()
+root.wm_title("Circles and Arcs")
+root.mainloop()
