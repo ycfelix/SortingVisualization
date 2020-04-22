@@ -1,25 +1,34 @@
 import tkinter as tk
 
-root = tk.Tk()
-canvas = tk.Canvas(root, width=200, height=200, borderwidth=0, highlightthickness=0, bg="black")
-canvas.grid()
+window = tk.Tk()
+window.title('BMI App')
+window.geometry('800x600')
+window.configure(background='white')
 
-def _create_circle(self, x, y, r, **kwargs):
-    return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
-tk.Canvas.create_circle = _create_circle
+header_label = tk.Label(window, text='BMI 計算器')
+header_label.pack()
 
-def _create_circle_arc(self, x, y, r, **kwargs):
-    if "start" in kwargs and "end" in kwargs:
-        kwargs["extent"] = kwargs["end"] - kwargs["start"]
-        del kwargs["end"]
-    return self.create_arc(x-r, y-r, x+r, y+r, **kwargs)
-tk.Canvas.create_circle_arc = _create_circle_arc
+# 以下為 height_frame 群組
+height_frame = tk.Frame(window)
+# 向上對齊父元件
+height_frame.pack(side=tk.TOP)
+height_label = tk.Label(height_frame, text='身高（m）')
+height_label.pack(side=tk.LEFT)
+height_entry = tk.Entry(height_frame)
+height_entry.pack(side=tk.LEFT)
 
-canvas.create_circle(100, 120, 50, fill="blue", outline="#DDD", width=4)
-canvas.create_circle_arc(100, 120, 48, fill="green", outline="", start=45, end=140)
-canvas.create_circle_arc(100, 120, 48, fill="green", outline="", start=275, end=305)
-canvas.create_circle_arc(100, 120, 45, style="arc", outline="white", width=6, start=270-25, end=270+25)
-canvas.create_circle(150, 40, 20, fill="#BBB", outline="")
+# 以下為 weight_frame 群組
+weight_frame = tk.Frame(window)
+weight_frame.pack(side=tk.TOP)
+weight_label = tk.Label(weight_frame, text='體重（kg）')
+weight_label.pack(side=tk.LEFT)
+weight_entry = tk.Entry(weight_frame)
+weight_entry.pack(side=tk.LEFT)
 
-root.wm_title("Circles and Arcs")
-root.mainloop()
+result_label = tk.Label(window)
+result_label.pack()
+
+calculate_btn = tk.Button(window, text='馬上計算')
+calculate_btn.pack()
+
+window.mainloop()
