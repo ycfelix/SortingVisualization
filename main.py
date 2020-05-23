@@ -37,7 +37,7 @@ def sort_click():
     sort_btn["state"] = tk.DISABLED
     running.set(str(0))
     algo = sort_algo.get()
-    arr = re.findall("^\[[\d|,|\s|-]*\]$", entry.get())
+    arr = re.findall("^\[[\d|,|\s|\-|\.]*\]$", entry.get())
     if not arr:
         messagebox.showinfo("Wrong input!", '''
            your input is wrong!''')

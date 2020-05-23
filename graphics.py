@@ -18,7 +18,7 @@ def init_graphics(h,w,arr,canvas):
         bar=canvas.create_rectangle(i*barwidth+5,h-barheight+5,(i+1)*barwidth-5,h-5,fill='black')
         text_x=(i*barwidth+5+(i+1)*barwidth-5)//2
         text_y=h+5
-        text=canvas.create_text(text_x, text_y, fill="green", font="Times 12 italic bold",
+        text=canvas.create_text(text_x, text_y, fill="green", font="Times 9 italic bold",
                            text=str(e))
         bars.append([e,bar,text,i*barwidth+5,h-barheight+5,(i+1)*barwidth-5,h-5])
     return bars
