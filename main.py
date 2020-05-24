@@ -18,6 +18,7 @@ ALGO_OPTIONS = [
 ]
 SPEED_OPTIONS = ["1","2","3","4"]
 
+#UI element bindings
 detail = tk.StringVar()
 running = tk.StringVar()
 speed_var = tk.StringVar(window)
@@ -29,6 +30,7 @@ speed_var.set(SPEED_OPTIONS[0])
 pause = tk.IntVar()
 sort_algo.set(ALGO_OPTIONS[0])
 
+#define canvas height width
 height, width = 400, 600
 expand = 30
 
@@ -49,12 +51,12 @@ def sort_click():
         global photo,canvas
         canvas.delete("all")
         bars = graphics.init_graphics(height, width, arr, canvas)
+        start = timeit.default_timer()
         if algo == ALGO_OPTIONS[0]:
             bubble_sort(bars, canvas)
         elif algo == ALGO_OPTIONS[1]:
             heap_sort(bars, canvas)
         elif algo == ALGO_OPTIONS[2]:
-            start = timeit.default_timer()
             quick_sort(bars, 0, len(bars) - 1, start, canvas)
         sort_btn["state"] = tk.NORMAL
     running_thread = threading.Thread(target=sort_by_time)
@@ -64,8 +66,6 @@ def sort_click():
 '''
 play animation here
 '''
-
-
 def swap(arr, i, j, canvas, start):
     fast = int(speed_var.get())
     ei, bari, texti, xi1, yi1, xi2, yi2 = arr[i]
